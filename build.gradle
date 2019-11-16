@@ -1,0 +1,24 @@
+plugins {
+    id 'scala'
+    id "com.adtran.scala-multiversion-plugin" version "1.0.35"
+}
+
+group 'pers.wjh.spark'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+}
+
+dependencies{
+    implementation "org.scala-lang:scala-library:%scala-version%"
+    testImplementation  "org.specs2:specs2-core_%%:4.7.1"
+    compileOnly "org.apache.spark:spark-sql_%%:2.3.4"
+}
+
+sourceSets {
+    test{
+        compileClasspath += configurations.compileOnly
+        runtimeClasspath += configurations.compileOnly
+    }
+}
