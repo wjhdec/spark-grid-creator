@@ -14,6 +14,7 @@ class ExtentSparkRunnerTest extends Specification {
       val extCount = sepDtDs.count()
       sepDtDs.show()
       sepDtDs.unpersist()
+      // 这里只是示例数据刚好为 1，和逻辑无关
       (headExtent.xMax - headExtent.xMin) must_=== 1
       (headExtent.yMax - headExtent.yMin) must_=== 1
       extCount must_===  16* 16
