@@ -21,10 +21,24 @@ class ExtentTest extends Specification {
           Extent("s-8",9.0,2.0,10.0,3.0),
           Extent("s-9",9.0,3.0,10.0,4.0))
       )
+    }
+  }
+  "长度划分" should {
+    "最后一个值保留" in {
+      Extent.separate(5,11,2.5) must_=== Seq(5.0, 7.5, 10.0, 11.0)
+    }
 
-      Extent("s", 0, 0, 10, 10).separate(2, 2).foreach(println)
 
-      ok
+    "正常分隔Extent" in {
+      val baseExt = Extent("s", 5, 2, 10, 10)
+      val xLength = 1.5
+      val yLength = 2.5
+      baseExt.separate(xLength, yLength).map{ e =>
+        (e.xMax - e.xMin must be_<=(xLength) when(e.xMax == baseExt.xMax))
+          .and(e.yMax - e.yMin must be_<=(yLength) when(e.yMax == baseExt.yMax))
+          .and((e.xMax - e.xMin must_=== xLength) when(e.xMax < baseExt.xMax))
+          .and((e.yMax - e.yMin must_=== yLength) when(e.yMax < baseExt.yMax))
+      }.reduce(_ and _)
     }
   }
 }
